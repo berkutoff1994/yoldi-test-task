@@ -1,0 +1,29 @@
+@import '/src/styles/variables.module.scss';
+
+.heading {
+  @include bb;
+
+  .container {
+    @include container;
+
+    .heading__content {
+      @include fl-row-ai-center;
+      justify-content: space-between;
+      padding: 15px 0;
+
+      .heading__logoBlock {
+        display: flex;
+      }
+
+      .heading__title {
+        max-width: 225px;
+        margin-left: 20px;
+        @include size-16; 
+
+        @include _768 {
+          display: none;
+        }
+      }
+    } 
+  }
+}
