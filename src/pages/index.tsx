@@ -22,6 +22,7 @@ export default function Home() {
       <main className={styles.main}>
         sdfsdfdsfsd
       </main>
+      
     </>
   )
 }
