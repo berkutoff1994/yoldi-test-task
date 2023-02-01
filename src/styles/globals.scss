@@ -14,9 +14,17 @@ body {
 
 body {
   color: $black;
+  font-family: 'Inter', sans-serif;
+  @include size-16;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+button {
+  background: none;
+  outline: none;
+  border: none;
 }
