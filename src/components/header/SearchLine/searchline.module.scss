@@ -3,14 +3,17 @@
 .searchLine {
   @include bb;
 
+  @include _375 {
+    display: none
+  }
+
   .container {
     @include container;
 
     .searchLine__content {
       position: relative;
-      display: flex;
+      @include fl-row-ai-center;
       justify-content: center;
-      align-items: center;
       padding: 13px 0;
 
       .iconsBlock {
@@ -18,6 +21,10 @@
         left: 0;
         display: flex;
         margin-right: 213px;
+
+        @include _920 {
+          display: none;
+        }
         
         .iconsBlock__icon {
           width: 12px;
@@ -46,6 +53,10 @@
         width: 100%;
         padding: 6px 0;
         background-color: $gray-light;
+
+        @include _920 {
+          max-width: 100%;
+        }
     
         .title {
           @include size-12-bold;
