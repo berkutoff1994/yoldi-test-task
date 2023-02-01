@@ -1,0 +1,10 @@
+@import '/src/styles/variables.module.scss';
+
+.EnterButton {
+  min-width: 114px;
+  max-height: 40px;
+  padding: 7px 0;
+  border: 1px solid $gray-primary;
+  border-radius: 5px;
+  @include size-16-bold;
+}
