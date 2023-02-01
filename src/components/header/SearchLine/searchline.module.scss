@@ -1,0 +1,57 @@
+@import '/src/styles/variables.module.scss';
+
+.searchLine {
+  @include bb;
+
+  .container {
+    @include container;
+
+    .searchLine__content {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 13px 0;
+
+      .iconsBlock {
+        position: absolute;
+        left: 0;
+        display: flex;
+        margin-right: 213px;
+        
+        .iconsBlock__icon {
+          width: 12px;
+          height: 12px;
+          border-radius: 50px;
+    
+          &:not(:last-child) {
+            margin-right: 8px;
+          }
+        }
+        .redIcon {
+          background-color: $red;
+        }
+        .yellowIcon {
+          background-color: $yellow;
+        }
+        .greenIcon {
+          background-color: $green;
+        }
+      }
+    
+      .searchBlock {
+        display: flex;
+        justify-content: center;
+        max-width: 744px;
+        width: 100%;
+        padding: 6px 0;
+        background-color: $gray-light;
+    
+        .title {
+          @include size-12-bold;
+          color: $gray-dark;
+        }
+      }
+    }
+  }
+}
