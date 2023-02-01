@@ -1,16 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
 
 $black: #000000;
 $white: #FFFFFF;
 $gray-light: #F3F3F3;
-$gray-dark: #D4D4D4;
+$gray-primary: #D5D5D5;
 $gray-mid: #E6E6E6;
+$gray-dark: #797979;
 $red: #F00000;
+$yellow: #F8CE52;
+$green: #5FCF65;
 
+@mixin bb {
+  border-bottom: 1px solid $gray-mid;
+}
 
 @mixin size-12 {
   font-weight: 400;
   font-size: 12px;
   line-height: 160%;
+}
+
+@mixin size-12-bold {
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 14px;
 }
 
 @mixin size-16 {
@@ -36,4 +49,39 @@ $red: #F00000;
   font-size: 30px;
   line-height: 140%;
 }
+
+@mixin fl-col {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin fl-row-ai-center {
+  display: flex;
+  align-items: center;
+}
+
+@mixin container {
+  max-width: 1280px;
+  padding: 0 20px;
+  margin: 0 auto;
+}
+
+@mixin _920 {
+  @media (max-width: 920px){
+      @content;
+  }
+}
+
+@mixin _768 {
+  @media (max-width: 768px){
+      @content;
+  }
+}
+
+@mixin _375 {
+  @media (max-width: 375px){
+      @content;
+  }
+}
+
 
