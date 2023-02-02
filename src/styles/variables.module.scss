@@ -6,12 +6,21 @@ $gray-light: #F3F3F3;
 $gray-primary: #D5D5D5;
 $gray-mid: #E6E6E6;
 $gray-dark: #797979;
+$gray-focus: #838383;
 $red: #F00000;
 $yellow: #F8CE52;
 $green: #5FCF65;
 
 @mixin bb {
   border-bottom: 1px solid $gray-mid;
+}
+
+@mixin bt {
+  border-top: 1px solid $gray-mid;
+}
+
+@mixin border {
+  border: 1px solid $gray-mid;
 }
 
 @mixin size-12 {
