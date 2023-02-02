@@ -1,0 +1,35 @@
+@import '/src/styles/variables.module.scss';
+
+.form {
+  max-width: 400px;
+  padding: 30px 35px;
+  @include border;
+  border-radius: 5px;
+  background: $white;
+
+  .form__content {
+    @include fl-col;
+    justify-content: center;
+
+    .form__title {
+      @include size-30;
+      margin-bottom: 25px;
+    }
+    .inputWrapper {
+      position: relative;
+
+      &:not(:last-child) {
+        margin-bottom: 15px;
+      }
+      &:last-child {
+        margin-bottom: 25px;
+      }
+      .validationBlock {
+        position: absolute;
+        top: -17px;
+        color: $red;
+        @include size-12;
+      }
+    }
+  }
+}
