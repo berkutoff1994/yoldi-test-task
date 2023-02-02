@@ -1,0 +1,41 @@
+@import '/src/styles/variables.module.scss';
+
+.wrapper {
+  position: relative;
+  width: 100%;
+
+  .myinput {
+    width: 100%;
+    padding-top: 11px;
+    padding-bottom: 11px;
+    padding-left: 55px;
+    background: none;
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid $gray-primary;
+    @include size-16;
+    transition: border 0.3s ease-in-out, background-color 0.3s ease-in-out;
+
+    &:hover {
+      border: 1px solid $gray-focus;
+    }
+    &:focus {
+      border: 1px solid $gray-focus;
+    }
+    &:active {
+      border: 1px solid $gray-light;
+      background-color: $gray-light;
+    }
+  }
+  .firstIcon {
+    position: absolute;
+    left: 22px;
+    top: 15px;
+  }
+  .secondIcon {
+    position: absolute;
+    right: 18px;
+    top: 17px;
+    cursor: pointer;
+  }
+}
