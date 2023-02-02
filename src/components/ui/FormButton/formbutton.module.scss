@@ -1,0 +1,26 @@
+@import '/src/styles/variables.module.scss';
+
+.formButton {
+  width: 100%;
+  padding: 12px 0;
+  @include size-16;
+  border-radius: 5px;
+  background-color: $black;
+  color: $gray-light;
+  border: 1px solid $gray-primary;
+  transition: border 0.3s ease-in-out, background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+
+  &:focus {
+    border: 1px solid $gray-focus;
+  }
+  &:active {
+    background-color: $gray-primary;
+    color: $gray-light;
+    border: 1px solid $gray-primary;
+  }
+}
+
+.formButton__disabled {
+  background-color: $gray-primary;
+  color: $white;
+}
