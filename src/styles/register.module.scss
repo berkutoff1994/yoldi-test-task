@@ -1,0 +1,18 @@
+@import '/src/styles/variables.module.scss';
+
+.wrapper {
+  @include fl-col;
+  min-height: 100vh;
+
+  main {
+    flex-grow: 1;
+    @include fl-col;
+    align-items: center;
+    justify-content: center;
+    background: $gray-light;
+
+    .container {
+      @include container;
+    }
+  }
+}
