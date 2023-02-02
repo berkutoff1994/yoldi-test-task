@@ -7,4 +7,17 @@
   border: 1px solid $gray-primary;
   border-radius: 5px;
   @include size-16-bold;
+  transition: border 0.3s ease-in-out, background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+
+  &:hover {
+    border: 1px solid $gray-focus;
+  }
+  &:focus {
+    border: 1px solid $gray-focus;
+  }
+  &:active {
+    background-color: $gray-primary;
+    border: 1px solid $gray-primary;
+    color: $gray-light;
+  }
 }
