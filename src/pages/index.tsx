@@ -4,6 +4,7 @@ import { Inter } from '@next/font/google'
 import styles from '@/styles/Home.module.scss'
 import { SearchLine } from '@/components/header/SearchLine'
 import { Heading } from '@/components/header/Heading'
+import { Footer } from '@/components/Footer'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,9 +21,9 @@ export default function Home() {
         <Heading user={true} />
       </header>
       <main className={styles.main}>
-        sdfsdfdsfsd
+        main
       </main>
-      
+      <Footer />
     </>
   )
 }
