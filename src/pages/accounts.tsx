@@ -8,18 +8,18 @@ import { IUser } from '@/types'
 import useSWR from 'swr'
 import styles from '@/styles/accounts.module.scss'
 import { fetcher } from './api/hello'
+import { useGetEmail } from '@/hooks'
+import Loader from '@/components/ui/Loader/Loader'
 
 export default function Accounts() {
-  const [email, setEmail] = useState<string | null>(null)
   const {data, error} = useSWR<IUser[] | undefined>('https://frontend-test-api.yoldi.agency/api/user', fetcher)
-
-  useEffect(() => {
-    const email = localStorage.getItem('email')
-    setEmail(email)
-  }, [])
-
+  const email = useGetEmail()
   const myUser: IUser | undefined = data?.find((user) => user.email === email)
-  
+  if(!data) {
+    return (
+      <Loader />
+    )
+  }
   return (
     <>
       <Head>
@@ -34,7 +34,7 @@ export default function Accounts() {
         </header>
         <main className={styles.main}>
           <div className={styles.container}>
-            <UsersList userList={data} />
+            <UsersList myUser={myUser} userList={data} />
           </div>
         </main>
         {!email ? <Footer /> : null} 

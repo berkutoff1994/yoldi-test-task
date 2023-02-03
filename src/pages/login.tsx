@@ -16,7 +16,7 @@ export default function Login() {
       <div className={styles.wrapper}>
         <header>
           <SearchLine />
-          <Heading user={true} />
+          <Heading />
         </header>
         <main className={styles.main}>
           <div className={styles.container}>
