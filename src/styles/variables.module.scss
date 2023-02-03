@@ -69,6 +69,11 @@ $green: #5FCF65;
   align-items: center;
 }
 
+@mixin fl-row-jc-sb {
+  display: flex;
+  justify-content: space-between;
+}
+
 @mixin container {
   max-width: 1280px;
   padding: 0 20px;
@@ -86,6 +91,8 @@ $green: #5FCF65;
       @content;
   }
 }
+
+
 
 @mixin _375 {
   @media (max-width: 375px){
