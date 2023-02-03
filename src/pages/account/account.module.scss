@@ -1,0 +1,20 @@
+@import '/src/styles/variables.module.scss';
+
+.main {
+  flex-grow: 1;
+  @include fl-col;
+  align-items: center;
+  justify-content: center;
+
+  .main__back {
+    height: 200px;
+    width: 100%;
+    border-bottom: 1px solid #E6E6E6;
+    background: #F3F3F3;
+  }
+
+  .container {
+    width: 100%;
+    @include container;
+  }
+}
