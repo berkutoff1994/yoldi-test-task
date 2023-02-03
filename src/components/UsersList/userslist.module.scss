@@ -1,0 +1,58 @@
+@import '/src/styles/variables.module.scss';
+
+.wrapper {
+  @include fl-row-ai-center;
+  justify-content: center;
+
+  .userList {
+    @include fl-col;
+    max-width: 800px;
+    width: 100%;
+    
+  
+    .userList__title {
+      @include size-30;
+      padding-bottom: 30px;
+      @include bb;
+    }
+    .userList__item {
+      @include fl-row-ai-center;
+      padding: 10px 0;
+      @include bb;
+
+      .avatarBlock {
+
+        .avatar {
+          @include fl-row-ai-center;
+          justify-content: center;
+          width: 50px;
+          height: 50px;
+          margin-right: 20px;
+          border-radius: 50px;
+          border: 1px solid $gray-mid;
+          background: $gray-light;
+        }
+        .avatar__none {
+          background: none;
+        }
+      }
+
+      .userAbout {
+        @include fl-row-jc-sb;
+        flex-grow: 1;
+
+        @include _768 {
+          flex-direction: column;
+          justify-content: start;
+        }
+
+        .userName {
+          @include size-16-bold;
+        }
+        .userEmail {
+          color: $gray-focus;
+        }
+      }
+    }
+  }
+}
