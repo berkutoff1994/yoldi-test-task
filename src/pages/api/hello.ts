@@ -1,3 +1,1 @@
-import axios from "axios";
-
-export const fetcher = (url: string, init?: RequestInit) => axios.post(url).then(res => res.data.JSON())
+export const fetcher = async (url: string, init?: RequestInit) => await fetch(url, init).then(res => res.json())
