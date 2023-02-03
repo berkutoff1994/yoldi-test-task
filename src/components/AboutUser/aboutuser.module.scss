@@ -1,0 +1,79 @@
+@import '/src/styles/variables.module.scss';
+
+.aboutUser {
+  @include fl-col;
+  align-items: center;
+
+  .aboutUser__block {
+    position: relative;
+    padding: 85px 0;
+    max-width: 800px;
+    width: 100%;
+
+    .aboutUser__avatar {
+      position: absolute;
+      top: -50px;
+      @include fl-row-ai-center;
+      justify-content: center;
+      width: 100px;
+      height: 100px;
+      border-radius: 50px;
+      outline: 1px solid $gray-mid;
+      background: $gray-light;
+      cursor: pointer;
+
+      .avatar {
+        @include size-30;
+        max-height: 100px;
+        max-width: 100px;
+
+        div {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          background-image: url('/avatar-hover.png');
+          transform: scale(0);
+          transition: transform 0.3s ease-in-out;
+          z-index: 0;
+
+          &:hover .avatar {
+            transform: scale(1);
+            z-index: 10;
+          }
+        }
+
+        img {
+          border-radius: 50px;
+        }
+      }
+    }
+    .aboutUser__topBLock {
+      @include fl-row-jc-sb;
+      margin-bottom: 30px;
+
+      @include _768 {
+        @include fl-col;
+      }
+
+      .aboutUser__nameBlock {
+        @include fl-col;
+
+        @include _768 {
+          margin-bottom: 10px;
+        }
+  
+        .aboutUser__name {
+          margin-bottom: 10px;
+          @include size-30;
+        }
+        .aboutUser__email {
+          color: $gray-focus;
+        }
+      }
+    }
+    .aboutUser__descr {
+      margin-bottom: 60px;
+      max-width: 600px;
+    }
+  }
+}
