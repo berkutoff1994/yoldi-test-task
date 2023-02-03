@@ -1,5 +1,6 @@
 import { ValidationName, ValidationEmail, ValidationPassword } from '@/utils/validation';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import FormButton from '../ui/FormButton/FormButton';
 import MyInput from '../ui/MyInput/MyInput';
@@ -11,36 +12,31 @@ export function LoginForm() {
   const [valid, setValid] = useState({name: true, email: true, password: true})
   const [passswordType, setPasswordType] = useState<string>('password')
   const [apiError, setApiError] = useState('')
+  let router= useRouter()
 
-  //скрыть/показать пароль
   const onChangeType = () => {
     if(passswordType === 'password') {
       setPasswordType('text')
     } else setPasswordType('password')
   }
 
-  //значения инпутов для отправки формы
   const inputHandler = (e: any) => {
     setValue(prev => ({...prev, [e.target.name]: e.target.value}))
   }
 
-  //следим за инпутами для обновления состояния disabled у кнопки submit
   useEffect(() => {
     if(value.email === '' && value.password === '') {
       setDisabled(true)
       setApiError('')
     } else setDisabled(false)
-     //если email невалидный то следим за заполнением поля ввода
      if(!valid.email && ValidationEmail(value.email)) {
       setValid({...valid, email: true})
     }
-     //если пароль невалидный то следим за заполнением поля ввода
     if(!valid.password && ValidationPassword(value.password)) {
       setValid({...valid, password: true})
     }
   }, [value])
 
-  //отправка формы
   const formHandler = async (e: any) => {
     e.preventDefault()
     if(!ValidationEmail(value.email)) {
@@ -55,11 +51,12 @@ export function LoginForm() {
     }
 
     try {
-      const response = await axios.post(
-        'https://frontend-test-api.yoldi.agency/api/auth/login', value)
-      console.log(response)
+      const response = await axios.post('https://frontend-test-api.yoldi.agency/api/auth/login', value)
+      localStorage.setItem('user', response.data.value)
+      localStorage.setItem('email', value.email)
+      setValue({email: '', password: ''})
+      router.push('/accounts')
     } catch(err: any) {
-      console.log(err.response.data.message)
       setApiError(err.response.data.message)
     }
   }

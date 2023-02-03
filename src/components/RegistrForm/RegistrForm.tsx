@@ -6,6 +6,7 @@ import axios from 'axios';
 import useSWR from 'swr'
 import styles from './registrform.module.scss';
 import { fetcher } from '@/pages/api/hello';
+import { useRouter } from 'next/router';
 
 export function RegistrForm() {
   const [value, setValue] = useState({email: '', name: '', password: ''})
@@ -14,9 +15,10 @@ export function RegistrForm() {
   const [errorValidation, setErrorValidation] = useState({name: '', email: ''})
   const [passswordType, setPasswordType] = useState('password')
   const [apiError, setApiError] = useState('')
-  const {data, error} = useSWR('https://frontend-test-api.yoldi.agency/api/auth/sign-up', fetcher)
+  let router= useRouter()
 
-  //скрыть/показать пароль
+  // const {data, error} = useSWR('https://frontend-test-api.yoldi.agency/api/auth/sign-up', fetcher)
+
   const onChangeType = () => {
     if(passswordType === 'password') {
       setPasswordType('text')
@@ -24,31 +26,25 @@ export function RegistrForm() {
     
   }
 
-  //значения инпутов для отправки формы
   const inputHandler = (e: any) => {
     setValue(prev => ({...prev, [e.target.name]: e.target.value}))
   }
-
-  //следим за инпутами для обновления состояния disabled у кнопки submit
+  
   useEffect(() => {
     if(value.name === '' && value.email === '' && value.password === '') {
       setDisabled(true)
     } else setDisabled(false)
-    //если имя невалидно то следим за заполнением поля ввода
     if(!valid.name && ValidationName(value.name)[0]) {
       setValid({...valid, name: true})
     }
-    //если email невалидный то следим за заполнением поля ввода
     if(!valid.email && ValidationEmail(value.email)) {
       setValid({...valid, email: true})
     }
-     //если пароль невалидный то следим за заполнением поля ввода
     if(!valid.password && ValidationPassword(value.password)) {
       setValid({...valid, password: true})
     }
   }, [value])
 
-  //отправка формы и валидация
   const formHandler = async (e: any) => {
     e.preventDefault()
     if(!ValidationName(value.name)[0]) {
@@ -69,9 +65,12 @@ export function RegistrForm() {
     try {
       const response = await axios.post(
         'https://frontend-test-api.yoldi.agency/api/auth/sign-up', value)
-      console.log(response)
+      if(response) {
+        setValue({email: '', name: '', password: ''})
+        router.push('/login')
+      }
+
     } catch(err: any) {
-      console.log(err)
       setApiError(err.response.data.message)
     }
   }
