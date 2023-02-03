@@ -1,9 +1,10 @@
 @import '/src/styles/variables.module.scss';
 
-.EnterButton {
+.enterButton {
   min-width: 114px;
+  max-width: 200px;
   max-height: 40px;
-  padding: 7px 0;
+  padding: 7px 25px;
   border: 1px solid $gray-primary;
   border-radius: 5px;
   @include size-16-bold;
@@ -19,5 +20,12 @@
     background-color: $gray-primary;
     border: 1px solid $gray-primary;
     color: $gray-light;
+  }
+  div {
+    @include fl-row-ai-center;
+
+    .enterButton__icon {
+      margin-right: 13px;
+    }
   }
 }
