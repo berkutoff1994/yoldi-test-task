@@ -29,3 +29,11 @@ button {
   border: none;
   cursor: pointer;
 }
+
+img {
+  object-fit: cover;
+}
+
+input, textarea {
+  outline: none;
+}

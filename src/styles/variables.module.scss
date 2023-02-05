@@ -92,7 +92,11 @@ $green: #5FCF65;
   }
 }
 
-
+@mixin _490 {
+  @media (max-width: 490px){
+      @content;
+  }
+}
 
 @mixin _375 {
   @media (max-width: 375px){
