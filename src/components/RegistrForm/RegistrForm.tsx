@@ -2,10 +2,9 @@ import { ValidationEmail, ValidationName, ValidationPassword } from '@/utils/val
 import React, { useEffect, useState } from 'react';
 import FormButton from '../ui/FormButton/FormButton';
 import MyInput from '../ui/MyInput/MyInput';
-import axios from 'axios';
-import useSWR from 'swr'
+import { useSWRConfig } from 'swr'
+import { Registration } from '@/pages/api/hello';
 import styles from './registrform.module.scss';
-import { fetcher } from '@/pages/api/hello';
 import { useRouter } from 'next/router';
 
 export function RegistrForm() {
@@ -16,8 +15,7 @@ export function RegistrForm() {
   const [passswordType, setPasswordType] = useState('password')
   const [apiError, setApiError] = useState('')
   let router= useRouter()
-
-  // const {data, error} = useSWR('https://frontend-test-api.yoldi.agency/api/auth/sign-up', fetcher)
+  const { mutate } = useSWRConfig()
 
   const onChangeType = () => {
     if(passswordType === 'password') {
@@ -61,18 +59,13 @@ export function RegistrForm() {
       setValid({...valid, password: false})
       return
     }
-
     try {
-      const response = await axios.post(
-        'https://frontend-test-api.yoldi.agency/api/auth/sign-up', value)
-      if(response) {
-        setValue({email: '', name: '', password: ''})
-        router.push('/login')
-      }
-
+      const response = Registration(value, mutate)
     } catch(err: any) {
-      setApiError(err.response.data.message)
+      setApiError(err)
     }
+    setValue({email: '', name: '', password: ''})
+    router.push('/login')
   }
 
 

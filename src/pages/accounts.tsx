@@ -1,7 +1,6 @@
 import Head from 'next/head'
 import { SearchLine } from '@/components/header/SearchLine'
 import { Heading } from '@/components/header/Heading'
-import { useEffect, useState } from 'react'
 import { Footer } from '@/components/Footer'
 import { UsersList } from '@/components/UsersList'
 import { IUser } from '@/types'
@@ -13,6 +12,7 @@ import Loader from '@/components/ui/Loader/Loader'
 
 export default function Accounts() {
   const {data, error} = useSWR<IUser[] | undefined>('https://frontend-test-api.yoldi.agency/api/user', fetcher)
+  const token = useGetEmail()
   const email = useGetEmail()
   const myUser: IUser | undefined = data?.find((user) => user.email === email)
   if(!data) {
@@ -30,7 +30,7 @@ export default function Accounts() {
       <div className={styles.wrapper}>
         <header>
           <SearchLine />
-          <Heading myUser={myUser}/>
+          <Heading />
         </header>
         <main className={styles.main}>
           <div className={styles.container}>

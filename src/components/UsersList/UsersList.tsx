@@ -17,11 +17,11 @@ export const UsersList:FC<IUserList> = ({myUser, userList}) => {
           Список аккаунтов
         </h2>
         <div>
-          {userList ? userList.map(user => 
+          {userList && userList.map(user => 
             <Link 
               className={styles.userList__item} 
               key={user.email} 
-              href={`/account/${myUser?.email == user.email ? 'owner' : 'guest'}/${user.email}}`}>
+              href={`/account/${myUser?.email == user.email ? 'owner' : 'guest'}/${user.slug}}`}>
               <div className={styles.avatarBlock}>
                 {user.image
                   ?
@@ -36,8 +36,6 @@ export const UsersList:FC<IUserList> = ({myUser, userList}) => {
               </div>
             </Link>
             )
-            :
-            null
           }
         </div>
       </div>

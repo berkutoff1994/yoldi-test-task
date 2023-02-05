@@ -1,7 +1,8 @@
-import { ValidationName, ValidationEmail, ValidationPassword } from '@/utils/validation';
-import axios from 'axios';
+import { Login } from '@/pages/api/hello';
+import { ValidationEmail, ValidationPassword } from '@/utils/validation';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
+import { useSWRConfig } from 'swr';
 import FormButton from '../ui/FormButton/FormButton';
 import MyInput from '../ui/MyInput/MyInput';
 import styles from './loginform.module.scss';
@@ -12,7 +13,8 @@ export function LoginForm() {
   const [valid, setValid] = useState({name: true, email: true, password: true})
   const [passswordType, setPasswordType] = useState<string>('password')
   const [apiError, setApiError] = useState('')
-  let router= useRouter()
+  const router = useRouter()
+  const { mutate } = useSWRConfig()
 
   const onChangeType = () => {
     if(passswordType === 'password') {
@@ -49,16 +51,10 @@ export function LoginForm() {
       setValid({...valid, password: false})
       return
     }
-
-    try {
-      const response = await axios.post('https://frontend-test-api.yoldi.agency/api/auth/login', value)
-      localStorage.setItem('user', response.data.value)
-      localStorage.setItem('email', value.email)
-      setValue({email: '', password: ''})
-      router.push('/accounts')
-    } catch(err: any) {
-      setApiError(err.response.data.message)
-    }
+    const response = await Login(value, mutate)
+    localStorage.setItem('token', response.value)
+    setValue({email: '', password: ''})
+    router.push('/accounts')
   }
 
   return (

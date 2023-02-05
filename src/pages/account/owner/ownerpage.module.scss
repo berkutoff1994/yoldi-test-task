@@ -1,0 +1,38 @@
+@import '/src/styles/variables.module.scss';
+
+.main {
+  flex-grow: 1;
+  @include fl-col;
+  align-items: center;
+  justify-content: center;
+
+  .main__back {
+    @include fl-row-ai-center;
+    justify-content: center;
+    height: 200px;
+    width: 100%;
+    border-bottom: 1px solid #E6E6E6;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    .buttonWrapper {
+      @include fl-row-ai-center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    &:hover .buttonWrapper {
+      width: 100%;
+      height: 100%;
+      opacity: 1;
+    }
+  }
+
+  .container {
+    width: 100%;
+    @include container;
+  }
+}
