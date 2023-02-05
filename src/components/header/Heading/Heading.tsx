@@ -8,7 +8,7 @@ import { useGetToken } from '@/hooks';
 
 export const Heading = () => {
   const token = useGetToken()
-  const {data, error} = useSWR([token], ([token]) => GetMyProfile(token))
+  const {data, error} = useSWR([token], ([token]: string[]) => GetMyProfile(token))
   return (
     <div className={styles.heading}>
       <div className={styles.container}>
