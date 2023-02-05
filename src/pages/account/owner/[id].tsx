@@ -13,7 +13,6 @@ export default function AboutOwner() {
   const [loading, setLoading] = useState<boolean>(false)
   const token: string = useGetToken() || ''
   const {data, error} = useSWR([token], ([token]) => GetMyProfile(token))
-  console.log(data)
   const { mutate } = useSWRConfig()
 
   const onDownloadCover = async(e: any) => {
@@ -29,7 +28,6 @@ export default function AboutOwner() {
       description: data.description
     }
     const res = await ChangeMyProfile(value, mutate, token)
-    console.log(res)
     if (res) {
       setLoading(false)
     }
@@ -45,7 +43,6 @@ export default function AboutOwner() {
       description: data.description
     }
     const res = await ChangeMyProfile(value, mutate, token)
-    console.log(res)
     if (res) {
       setLoading(false)
     }
