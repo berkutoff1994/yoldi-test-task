@@ -38,7 +38,9 @@ const MyInput:FC<IMyInput> = (props) => {
          }
          {props.secondIcon
           ?
-          <Image onClick={props.onChangeType} className={styles.secondIcon} alt='icon' src={props.secondIcon} width={props.secondWidth} height={props.secondHeight} />
+          <div className={styles.secondIcon}>
+            <Image onClick={props.onChangeType} alt='icon' src={props.secondIcon} width={props.secondWidth} height={props.secondHeight} />
+          </div>
           :
           null
          }
