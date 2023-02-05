@@ -1,15 +1,14 @@
-import { FC } from 'react';
 import Image from 'next/image';
 import EnterButton from '@/components/ui/EnterButton/EnterButton';
 import Link from 'next/link';
-import { IUser } from '@/types';
+import useSWR from 'swr'
+import { GetMyProfile } from '@/pages/api/hello';
 import styles from './heading.module.scss';
+import { useGetToken } from '@/hooks';
 
-interface IHeading {
-  myUser?: IUser | undefined
-}
-
-export const Heading:FC<IHeading> = ({myUser}) => {
+export const Heading = () => {
+  const token = useGetToken()
+  const {data, error} = useSWR([token], ([token]) => GetMyProfile(token))
   return (
     <div className={styles.heading}>
       <div className={styles.container}>
@@ -22,28 +21,29 @@ export const Heading:FC<IHeading> = ({myUser}) => {
               Разрабатываем и запускаем сложные веб проекты
             </h2>
           </div>
-          {myUser 
+          {data 
             ? 
             <div className={styles.heading__avatarBlock}>
               <span className={styles.avatarBlock__name}>
-                {myUser.name}
+                {data.name}
               </span>
-              <Link href={`/account/owner/${myUser.email}`}>
+              <Link href={`/account/owner/${data.slug}`}>
                 <div className={styles.avatarBlock__avatar}>
-                  {myUser.image
+                  {data.image
                   ?
-                  <Image alt='avatar' src={myUser.image.url} width={50} height={50}/>
+                  <Image alt='avatar' src={data.image.url} width={50} height={50}/>
                   :
-                  <div className={styles.avatar}>{myUser.name[0]}</div>
+                  <div className={styles.avatar}>{data.name[0]}</div>
                   }
                 </div>
               </Link>
             </div>
             :
-            <Link href='/login'><EnterButton>Войти</EnterButton></Link>
+            <Link href='/login'><EnterButton padding='7px 33px'>Войти</EnterButton></Link>
           }
         </div>
       </div>
     </div>
   );
 }
+
