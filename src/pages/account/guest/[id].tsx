@@ -5,7 +5,7 @@ import { fetcher } from '../../api/hello'
 import useSWR from 'swr'
 import Loader from '@/components/ui/Loader/Loader'
 import { Guest } from '@/components/Guest'
-import styles from '../guestpage.module.scss'
+import styles from './guestpage.module.scss'
 
 export default function AboutGuest() {
   const router = useRouter()

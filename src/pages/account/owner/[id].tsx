@@ -5,9 +5,9 @@ import { ChangeMyAvatar, ChangeMyProfile, GetMyProfile } from '../../api/hello'
 import { Owner } from '@/components/Owner'
 import { useGetToken } from '@/hooks'
 import Loader from '@/components/ui/Loader/Loader'
-import styles from './ownerpage.module.scss'
 import DownloadButton from '@/components/ui/DownloadButton/DownloadButton'
 import { useState } from 'react'
+import styles from './ownerpage.module.scss'
 
 export default function AboutOwner() {
   const [loading, setLoading] = useState<boolean>(false)
