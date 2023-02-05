@@ -5,11 +5,13 @@ interface IFormButton {
   children: string,
   disabled: boolean,
   type: "button" | "submit" | "reset",
+  onClick?: (e: any) => void
 }
 
-const FormButton:FC<IFormButton> = ({children, disabled, type}) => {
+const FormButton:FC<IFormButton> = ({children, disabled, type, onClick}) => {
   return (
     <button 
+      onClick={onClick}
       disabled={disabled}
       type={type}
       className={disabled ? styles.formButton + ' ' + styles.formButton__disabled : styles.formButton}>

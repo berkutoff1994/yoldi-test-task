@@ -1,9 +1,11 @@
 @import '/src/styles/variables.module.scss';
 
-.enterButton {
-  min-width: 114px;
-  max-width: 200px;
-  max-height: 40px;
+.myButton {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 7px 24px;
+  background: $white;
   border: 1px solid $gray-primary;
   border-radius: 5px;
   @include size-16-bold;
@@ -18,13 +20,23 @@
   &:active {
     background-color: $gray-primary;
     border: 1px solid $gray-primary;
-    color: $gray-light;
   }
-  div {
-    @include fl-row-ai-center;
+  .myButton__block {
+    display: flex;
+    align-items: center;
 
-    .enterButton__icon {
-      margin-right: 13px;
+    span {
+      margin: 0 10px;
+    }
+    .cover__downloader {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      opacity: 0;
+      overflow: none;
+      cursor: pointer;
     }
   }
 }

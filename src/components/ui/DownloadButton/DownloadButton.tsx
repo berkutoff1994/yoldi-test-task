@@ -1,0 +1,33 @@
+import Image from 'next/image'
+import React, { FC } from 'react'
+import styles from './downloadbutton.module.scss'
+
+interface IDownloadButton {
+  children: string,
+  link: string,
+  width: number,
+  height: number,
+  handler: (e: any) => void
+  downloader: boolean
+}
+
+const DownloadButton:FC<IDownloadButton> = ({children, link, width, height, handler, downloader}) => {
+  return (
+    <button onClick={handler} className={styles.myButton}>
+      <div className={styles.myButton__block}>
+        <Image alt='image' src={link} width={width} height={height}/>
+        <span>{children}</span>
+        <Image alt='image' src='/download-preview.png' width={22} height={17} />
+        {downloader &&
+        <input
+          className={styles.cover__downloader} 
+          onChange={handler} 
+          type={"file"}
+          name='file'
+          accept='image/*,.png,.jpg'/>}
+      </div>
+    </button>
+  )
+}
+
+export default DownloadButton
