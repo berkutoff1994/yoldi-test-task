@@ -27,7 +27,7 @@ export const UsersList:FC<IUserList> = ({myUser, userList}) => {
                   ?
                   <Image className={styles.avatar} alt='avatar' src={user.image.url} width={50} height={50} />
                   :
-                  <div className={styles.avatar + ' ' + styles.avatar__none}>{user.name[0]}</div>
+                  <div className={styles.avatar + ' ' + styles.avatar__none}>{user.name ? user.name[0] : ''}</div>
                 }
               </div>
               <div className={styles.userAbout}>
