@@ -5,14 +5,13 @@ import { Footer } from '@/components/Footer'
 import { UsersList } from '@/components/UsersList'
 import { IUser } from '@/types'
 import useSWR from 'swr'
-import styles from '@/styles/accounts.module.scss'
 import { fetcher } from './api/hello'
 import { useGetEmail } from '@/hooks'
 import Loader from '@/components/ui/Loader/Loader'
+import styles from '@/styles/accounts.module.scss'
 
 export default function Accounts() {
   const {data, error} = useSWR<IUser[] | undefined>('https://frontend-test-api.yoldi.agency/api/user', fetcher)
-  const token = useGetEmail()
   const email = useGetEmail()
   const myUser: IUser | undefined = data?.find((user) => user.email === email)
   if(!data) {

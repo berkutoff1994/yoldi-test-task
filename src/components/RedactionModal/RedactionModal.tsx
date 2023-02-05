@@ -1,11 +1,11 @@
-import { FC, useState } from 'react';
+import { FC, useContext, useState } from 'react';
 import { ChangeMyProfile } from '@/pages/api/hello';
 import { IUser } from '@/types';
 import { useRouter } from 'next/router';
 import { useSWRConfig } from 'swr';
 import ModalButton from '../ui/ModalButton/ModalButton';
+import { AuthContext } from '@/hooks/authContext';
 import styles from './redactionmodal.module.scss';
-import { useGetToken } from '@/hooks';
 
 interface IRedactionModal {
   modal: boolean,
@@ -16,16 +16,14 @@ interface IRedactionModal {
 }
 
 export const RedactionModal:FC<IRedactionModal> = (props) => {
-  console.log(props.aboutUser)
   const [value, setValue] = useState(
     {
       name: props.aboutUser?.name, 
       slug: props.aboutUser?.slug, 
       description: props.aboutUser?.description
     })
-    console.log(value)
   const { mutate } = useSWRConfig()
-  const token = useGetToken()
+  const token = useContext(AuthContext);
   const router = useRouter()
   
   const valueChange = (e: any) => {

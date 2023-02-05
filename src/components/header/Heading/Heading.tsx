@@ -1,13 +1,14 @@
-import Image from 'next/image';
+import { useContext } from 'react';
+import { AuthContext } from '@/hooks/authContext';
 import EnterButton from '@/components/ui/EnterButton/EnterButton';
+import Image from 'next/image';
 import Link from 'next/link';
 import useSWR from 'swr'
 import { GetMyProfile } from '@/pages/api/hello';
 import styles from './heading.module.scss';
-import { useGetToken } from '@/hooks';
 
 export const Heading = () => {
-  const token = useGetToken()
+  const token = useContext(AuthContext);
   const {data, error} = useSWR([token], ([token]: string[]) => GetMyProfile(token))
   return (
     <div className={styles.heading}>
@@ -21,7 +22,7 @@ export const Heading = () => {
               Разрабатываем и запускаем сложные веб проекты
             </h2>
           </div>
-          {data 
+          {token && data
             ? 
             <div className={styles.heading__avatarBlock}>
               <span className={styles.avatarBlock__name}>

@@ -1,11 +1,5 @@
 import Head from 'next/head'
-import { SearchLine } from '@/components/header/SearchLine'
-import { Heading } from '@/components/header/Heading'
-import { useEffect, useState } from 'react'
-import { Footer } from '@/components/Footer'
-import { UsersList } from '@/components/UsersList'
-import { IUser } from '@/types'
-import useSWR from 'swr'
+
 export default function Home() {
   return (
     <>

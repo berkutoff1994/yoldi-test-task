@@ -21,7 +21,6 @@ export function RegistrForm() {
     if(passswordType === 'password') {
       setPasswordType('text')
     } else setPasswordType('password')
-    
   }
 
   const inputHandler = (e: any) => {

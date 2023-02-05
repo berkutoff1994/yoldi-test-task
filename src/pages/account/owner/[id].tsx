@@ -3,16 +3,16 @@ import { Heading } from '@/components/header/Heading'
 import useSWR, { useSWRConfig } from 'swr'
 import { ChangeMyAvatar, ChangeMyProfile, GetMyProfile } from '../../api/hello'
 import { Owner } from '@/components/Owner'
-import { useGetToken } from '@/hooks'
 import Loader from '@/components/ui/Loader/Loader'
 import DownloadButton from '@/components/ui/DownloadButton/DownloadButton'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+import { AuthContext } from '@/hooks/authContext'
 import styles from './ownerpage.module.scss'
 
 export default function AboutOwner() {
   const [loading, setLoading] = useState<boolean>(false)
-  const token: string = useGetToken() || ''
-  const {data, error} = useSWR([token], ([token]) => GetMyProfile(token))
+  const token = useContext(AuthContext);
+  const {data, error} = useSWR([token], ([token]: string[]) => GetMyProfile(token))
   const { mutate } = useSWRConfig()
 
   const onDownloadCover = async(e: any) => {
@@ -47,6 +47,7 @@ export default function AboutOwner() {
       setLoading(false)
     }
   }
+
   return (
     <>
       {!data
@@ -59,6 +60,7 @@ export default function AboutOwner() {
         <Heading />
       </header>
       <main className={styles.main}>
+        {loading && <Loader />}
         <div className={styles.main__back} style={{background: !data.cover ? '#F3F3F3' : 'none', backgroundImage: data.cover ? `url(${data.cover.url})` : 'none'}}>
           {!data.cover 
             ? 
@@ -72,7 +74,8 @@ export default function AboutOwner() {
               <DownloadButton downloader={false} handler={onRemoveCover} link='/basket.png' width={17} height={19}>
                 Удалить
               </DownloadButton>
-            </div>}
+            </div>
+            }
         </div>
         <div className={styles.container}>
           <Owner myUser={data} />

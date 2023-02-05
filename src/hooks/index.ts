@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 
 export function useGetEmail() {
   const [email, setEmail] = useState<string | null>(null);
@@ -8,14 +8,4 @@ export function useGetEmail() {
   }, []);
 
   return email;
-}
-
-export function useGetToken() {
-  const [token, setToken] = useState<string | null>('');
-  useEffect(() => {
-    const token = localStorage.getItem('token')
-    setToken(token)
-  }, []);
-
-  return token;
 }

@@ -2,8 +2,8 @@ import Head from 'next/head'
 import { SearchLine } from '@/components/header/SearchLine'
 import { Heading } from '@/components/header/Heading'
 import { Footer } from '@/components/Footer'
-import styles from '@/styles/register.module.scss'
 import { RegistrForm } from '@/components/RegistrForm'
+import styles from '@/styles/register.module.scss'
 
 export default function Register() {
   return (

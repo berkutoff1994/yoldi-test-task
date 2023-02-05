@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { FC, useState } from 'react';
+import { FC, useContext, useState } from 'react';
 import EnterButton from '../ui/EnterButton/EnterButton';
 import { useSWRConfig } from 'swr'
 import Image from 'next/image'
@@ -7,8 +7,8 @@ import { ChangeMyAvatar, ChangeMyProfile} from '@/pages/api/hello';
 import { IUser } from '@/types';
 import { RedactionModal } from '../RedactionModal';
 import styles from './owner.module.scss';
-import { useGetToken } from '@/hooks';
 import Loader from '../ui/Loader/Loader';
+import { AuthContext } from '@/hooks/authContext';
 
 interface IAboutUser {
   myUser: IUser,
@@ -16,13 +16,11 @@ interface IAboutUser {
 
 export const Owner:FC<IAboutUser> = ({myUser}) => {
   const [loading, setLoading] = useState<boolean>(false)
-  const token = useGetToken()
+  const token = useContext(AuthContext);
   const router = useRouter()
   const { mutate } = useSWRConfig()
-
-  // запрос картинки /api/image/{id}
-  // const {data, error} = useSWR([token, imageId], ([token, imageId]) => GetMyAvatar(token, imageId))
   const [modal, setModal] = useState(false)
+  console.log(myUser)
 
   const onExit = () => {
     localStorage.clear()
