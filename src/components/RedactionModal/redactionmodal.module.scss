@@ -1,0 +1,104 @@
+@import '/src/styles/variables.module.scss';
+
+.modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  @include fl-row-ai-center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  transform: scale(0);
+  transition: transform 0.3s ease-in-out;
+
+  @include _490 {
+    background: none;
+    position: absolute;
+    bottom: initial;
+  }
+
+  .modal__content {
+    @include fl-col;
+    max-width: 600px;
+    width: 100%;
+    padding: 30px;
+    border: 1px solid $gray-mid;
+    border-radius: 5px;
+    background: $white;
+
+    .modal__title {
+      margin-bottom: 25px;
+      @include size-30;
+    }
+    .modal__form {
+      @include fl-col;
+
+      .form__label {
+        @include fl-col;
+        
+        span {
+          margin-bottom: 5px;
+          @include size-16-bold;
+          color: $gray-focus;
+        }
+
+        .form__inputSlugBlock {
+          @include fl-row-ai-center;
+          border: 1px solid $gray-primary;
+          border-radius: 5px;
+
+          .form__inputDescr {
+            padding: 12px 20px;
+            max-width: 146px;
+            width: 100%;
+            background: $gray-light;
+            border-radius: 5px 0 0 5px;
+            border-right: 1px solid $gray-primary;
+            color: $gray-focus;
+          }
+        }
+        .form__input {
+          padding: 12px 20px;
+          overflow: hidden;
+          
+          @include size-16;
+        }
+        .aboutInput {
+          border: 1px solid $gray-focus;
+          border-radius: 5px;
+          margin-bottom: 15px;
+        }
+        .slugInput {
+          border: none;
+          border-radius: 0 5px 5px 0;
+        }
+      }
+      .form__textarea {
+        padding: 12px 20px;
+        margin-bottom: 25px;
+        min-height: 154px;
+        resize: none;
+        border: 1px solid $gray-focus;
+        border-radius: 5px;
+        @include size-16;
+        font-family: Inter;
+
+        @include _490 {
+          margin-bottom: 80px;
+        }
+      }
+      .form__btns {
+        @include fl-row-jc-sb;
+
+        button:not(:last-child) {
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+}
+
+.modal__active {
+  transform: scale(1);
+}
