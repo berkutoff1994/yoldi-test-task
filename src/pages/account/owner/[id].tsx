@@ -22,13 +22,8 @@ export default function AboutOwner() {
     const formData = new FormData()
     formData.append('file', e.target.files[0])
     const response = await ChangeMyAvatar(formData, mutate)
-    const value = {
-      name: data.name,
-      imageId: data.id,
-      slug: data.slug,
-      coverId: response.data.id,
-      description: data.description
-    }
+    console.log(response)
+    const value = {...userData, coverId: response.data.id}
     const res = await ChangeMyProfile(value, mutate, token)
     if (res) {
       setLoading(false)
@@ -38,13 +33,7 @@ export default function AboutOwner() {
 
   const onRemoveCover = async() => {
     setLoading(true)
-    const value = {
-      name: data.name,
-      imageId: data.id,
-      slug: data.slug,
-      coverId: null,
-      description: data.description
-    }
+    const value = {...userData, coverId: null}
     const res = await ChangeMyProfile(value, mutate, token)
     if (res) {
       setLoading(false)
@@ -66,7 +55,7 @@ export default function AboutOwner() {
         </header>
         <main className={styles.main}>
           {loading && <Loader />}
-          <div className={styles.main__back} style={{background: !userData.cover ? '#F3F3F3' : 'none', backgroundImage: userData.cover ? `url(${userData.cover.url})` : 'none'}}>
+          <div className={styles.main__back} style={{background: !userData.cover ? '#F3F3F3' : '', backgroundImage: userData.cover ? `url(${userData.cover.url})` : 'none'}}>
             {!userData.cover 
               ? 
               <div className={styles.buttonWrapper}>
