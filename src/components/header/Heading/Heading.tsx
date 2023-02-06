@@ -26,7 +26,7 @@ export const Heading:FC<IHeadingProps> = () => {
               Разрабатываем и запускаем сложные веб проекты
             </h2>
           </div>
-          {token
+          {data
             ? 
             <div className={styles.heading__avatarBlock}>
               <span className={styles.avatarBlock__name}>

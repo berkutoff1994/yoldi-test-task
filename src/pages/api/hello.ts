@@ -37,17 +37,17 @@ export const GetMyProfile = async(token: string) => {
 
 export const ChangeMyProfile = async(body: IUser, mutate: any, token: string | null) => {
   const url = 'https://frontend-test-api.yoldi.agency/api/profile'
-  return await mutate(url, axios.patch(url, body, {
+  return await mutate(axios.patch(url, body, {
     headers: {
       'Content-type': 'application/json',
       "X-API-KEY": token ? token : ''
     },
-  }))
+  }).then(res => res.data))
 }
 
 export const ChangeMyAvatar = async(body: any, mutate: any) => {
   const url = 'https://frontend-test-api.yoldi.agency/api/image'
-  return await await mutate(url, axios.post(url, body))
+  return await axios.post(url, body)
 }
 
 export const GetMyAvatar = async(token: string | null, id: string) => {

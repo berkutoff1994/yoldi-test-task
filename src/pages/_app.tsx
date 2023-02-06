@@ -7,7 +7,7 @@ export default function App({ Component, pageProps }: AppProps) {
   const [token, setToken] = useState<string | null>(null);
   useEffect(() => {
     setToken(localStorage.getItem("token"))
-  }, [token])
+  }) 
   return (
     <AuthContext.Provider value={{token, setToken}}>
       <Component {...pageProps} />

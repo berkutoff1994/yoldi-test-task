@@ -2,7 +2,6 @@ import { FC, useContext, useState } from 'react';
 import { ChangeMyProfile } from '@/pages/api/hello';
 import { IUser } from '@/types';
 import { useRouter } from 'next/router';
-import { useSWRConfig } from 'swr';
 import ModalButton from '../ui/ModalButton/ModalButton';
 import Loader from '../ui/Loader/Loader';
 import { AuthContext, UserContext } from '@/hooks/context';
@@ -16,11 +15,10 @@ interface IRedactionModal {
 }
 
 export const RedactionModal:FC<IRedactionModal> = (props) => {
-  const { mutate } = useSWRConfig()
   const router = useRouter()
   const {token} = useContext(AuthContext)
-  const {userData, setUserData} = useContext(UserContext)
-  const [value, setValue] = useState<IUser>({...userData})
+  const {data, mutate} = useContext(UserContext)
+  const [value, setValue] = useState<IUser>({...data})
 
   const valueChange = (e: any) => {
     setValue(prev => ({...prev, [e.target.name]: e.target.value}))
@@ -29,10 +27,9 @@ export const RedactionModal:FC<IRedactionModal> = (props) => {
   const formHandler = async(e: any) => {
     e.preventDefault()
     const response = await ChangeMyProfile(value, mutate, token)
-    setUserData(value)
     if(response) {
       props.setModal(false)
-      router.push(`/account/owner/${response?.data.slug}`)
+      router.push(`/account/owner/${response?.slug}`)
     }
   }
   return (

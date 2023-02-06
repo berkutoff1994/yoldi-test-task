@@ -1,6 +1,6 @@
 import { SearchLine } from '@/components/header/SearchLine'
 import { Heading } from '@/components/header/Heading'
-import useSWR, { useSWRConfig } from 'swr'
+import useSWR from 'swr'
 import { ChangeMyAvatar, ChangeMyProfile, GetMyProfile } from '../../api/hello'
 import { Owner } from '@/components/Owner'
 import Loader from '@/components/ui/Loader/Loader'
@@ -13,50 +13,45 @@ import styles from './ownerpage.module.scss'
 export default function AboutOwner() {
   const [loading, setLoading] = useState<boolean>(false)
   const {token} = useContext(AuthContext)
-  const {data} = useSWR([token], ([token]: string[]) => GetMyProfile(token))
-  const [userData, setUserData] = useState(data)
-  const { mutate } = useSWRConfig()
+  const {data, mutate} = useSWR([token], ([token]: string[]) => GetMyProfile(token))
 
   const onDownloadCover = async(e: any) => {
     setLoading(true)
     const formData = new FormData()
     formData.append('file', e.target.files[0])
     const response = await ChangeMyAvatar(formData, mutate)
-    console.log(response)
-    const value = {...userData, coverId: response.data.id}
+    const value = {...data, coverId: response.data.id}
     const res = await ChangeMyProfile(value, mutate, token)
     if (res) {
       setLoading(false)
-      setUserData(res.data)
     }
   }
 
   const onRemoveCover = async() => {
     setLoading(true)
-    const value = {...userData, coverId: null}
+    const value = {...data, coverId: null}
     const res = await ChangeMyProfile(value, mutate, token)
     if (res) {
       setLoading(false)
-      setUserData(res.data)
     }
   }
 
+  if(!data) {
+    return (
+      <Loader />
+    )
+  }
   return (
-    <UserContext.Provider value={{userData, setUserData}}>
+    <UserContext.Provider value={{data, mutate}}>
       <>
-        {!userData
-        ?
-        <Loader />
-        :
-        <>
         <header>
           <SearchLine />
           <Heading token={token} />
         </header>
         <main className={styles.main}>
           {loading && <Loader />}
-          <div className={styles.main__back} style={{background: !userData.cover ? '#F3F3F3' : '', backgroundImage: userData.cover ? `url(${userData.cover.url})` : 'none'}}>
-            {!userData.cover 
+          <div className={styles.main__back} style={{background: !data.cover ? '#F3F3F3' : '', backgroundImage: data.cover ? `url(${data.cover.url})` : 'none'}}>
+            {!data.cover 
               ? 
               <div className={styles.buttonWrapper}>
                 <DownloadButton handler={onDownloadCover} link='/download.png' width={14} height={19}>
@@ -76,8 +71,6 @@ export default function AboutOwner() {
           </div>
         </main>
         </>
-        }
-      </>
     </UserContext.Provider>
   )
 }
