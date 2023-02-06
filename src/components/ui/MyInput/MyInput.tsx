@@ -25,7 +25,7 @@ const MyInput:FC<IMyInput> = (props) => {
         className={styles.myinput}
         placeholder={props.placeholder} 
         type={props.type}
-        style={{paddingRight: props.secondIcon ? '55px' : '20px', border: props.border ? '' : '1px solid red'}}
+        style={{paddingRight: props.secondIcon ? '55px' : '20px', border: props.border ? '':'1px solid red'}}
         value={props.value}
         name={props.name}
         onChange={(e) => props.setValue(e)}
