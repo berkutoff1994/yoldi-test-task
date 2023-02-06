@@ -102,7 +102,7 @@ export const LoginForm:FC<ILoginForm> = ({setLoading}) => {
             firstIcon='/close-pass-icon.png'
             secondIcon='/open-pass-icon.png'
             secondWidth={24}
-            secondHeight={12}
+            secondHeight={13}
             value={value.password}
             name='password'
             setValue={inputHandler}
