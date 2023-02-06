@@ -25,24 +25,20 @@ const MyInput:FC<IMyInput> = (props) => {
         className={styles.myinput}
         placeholder={props.placeholder} 
         type={props.type}
-        style={{paddingRight: props.secondIcon ? '55px' : '20px', border: props.border ? 'none' : '1px solid red'}}
+        style={{paddingRight: props.secondIcon ? '55px' : '20px', border: props.border ? '' : '1px solid red'}}
         value={props.value}
         name={props.name}
         onChange={(e) => props.setValue(e)}
          />
          {props.firstIcon
-          ?
+          &&
           <Image className={styles.firstIcon} alt='icon' src={props.firstIcon} width={props.firstWidth} height={props.firstheight} />
-          :
-          null
          }
          {props.secondIcon
-          ?
+          &&
           <div className={styles.secondIcon}>
             <Image onClick={props.onChangeType} alt='icon' src={props.secondIcon} width={props.secondWidth} height={props.secondHeight} />
           </div>
-          :
-          null
          }
     </div>
   )

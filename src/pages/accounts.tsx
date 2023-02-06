@@ -41,7 +41,7 @@ export default function Accounts() {
             <UsersList myUser={myUser} userList={data} />
           </div>
         </main>
-        {!token ? <Footer /> : null} 
+        {!token && <Footer />} 
       </div>
     </>
   )
