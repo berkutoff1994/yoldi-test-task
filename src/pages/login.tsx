@@ -4,8 +4,11 @@ import { Heading } from '@/components/header/Heading'
 import { Footer } from '@/components/Footer'
 import { LoginForm } from '@/components/LoginForm'
 import styles from '@/styles/register.module.scss'
+import { useState } from 'react'
+import Loader from '@/components/ui/Loader/Loader'
 
 export default function Login() {
+  const [loading, setLoading] = useState(false)
   return (
     <>
       <Head>
@@ -19,8 +22,9 @@ export default function Login() {
           <Heading />
         </header>
         <main className={styles.main}>
+          {loading && <Loader />}
           <div className={styles.container}>
-            <LoginForm />
+            <LoginForm setLoading={setLoading}/>
           </div>
         </main>
         <Footer />

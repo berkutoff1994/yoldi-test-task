@@ -1,5 +1,5 @@
 import { ValidationEmail, ValidationName, ValidationPassword } from '@/utils/validation';
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import FormButton from '../ui/FormButton/FormButton';
 import MyInput from '../ui/MyInput/MyInput';
 import { useSWRConfig } from 'swr'
@@ -7,7 +7,11 @@ import { Registration } from '@/pages/api/hello';
 import styles from './registrform.module.scss';
 import { useRouter } from 'next/router';
 
-export function RegistrForm() {
+interface IRegistrForm {
+  setLoading: (arg: boolean) => void
+}
+
+export const RegistrForm:FC<IRegistrForm> = ({setLoading}) => {
   const [value, setValue] = useState({email: '', name: '', password: ''})
   const [disabled, setDisabled] = useState<boolean>(true)
   const [valid, setValid] = useState({name: true, email: true, password: true})
@@ -44,26 +48,30 @@ export function RegistrForm() {
 
   const formHandler = async (e: any) => {
     e.preventDefault()
+    setLoading(true)
     if(!ValidationName(value.name)[0]) {
       const [verifiedName, err] = ValidationName(value.name)
       setErrorValidation({...errorValidation, name: err})
       setValid({...valid, name: verifiedName})
+      setLoading(false)
       return
     }
     if(!ValidationEmail(value.email)) {
       setValid({...valid, email: false})
+       setLoading(false)
       return
     }
     if(!ValidationPassword(value.password)) {
       setValid({...valid, password: false})
+       setLoading(false)
       return
     }
-    try {
-      const response = Registration(value, mutate)
-    } catch(err: any) {
-      setApiError(err)
+    const response = await Registration(value, mutate)
+    if(response.message === "Пользователь с таким email уже существует") {
+      setApiError("Пользователь с таким email уже существует")
+      setLoading(false)
+      return
     }
-    setValue({email: '', name: '', password: ''})
     router.push('/login')
   }
 

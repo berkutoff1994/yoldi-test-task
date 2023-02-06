@@ -6,9 +6,11 @@ import useSWR from 'swr'
 import Loader from '@/components/ui/Loader/Loader'
 import { Guest } from '@/components/Guest'
 import styles from './guestpage.module.scss'
+import { useGetToken } from '@/hooks'
 
 export default function AboutGuest() {
   const router = useRouter()
+  const token = useGetToken()
   const id = String(router.query.id).substring(0, String(router.query.id).length - 1)
   const {data} = useSWR(`https://frontend-test-api.yoldi.agency/api/user/${id}`, fetcher)
   return (
@@ -20,7 +22,7 @@ export default function AboutGuest() {
         <>
         <header>
           <SearchLine />
-          <Heading/>
+          <Heading token={token}/>
         </header>
         <main className={styles.main}>
           <div className={styles.main__back} style={{background: !data.cover ? '#F3F3F3' : `url(${data.cover.url})`}}/>

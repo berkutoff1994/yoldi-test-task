@@ -13,6 +13,10 @@
 
       .heading__logoBlock {
         display: flex;
+
+        .heading__logoBlock_link {
+          max-height: 50px;
+        }
       }
 
       .heading__title {
@@ -29,13 +33,11 @@
         display: flex;
         align-items: center;
 
-        .avatarBlock__name {
-
-        }
         .avatarBlock__avatar {
           max-height: 50px;
           max-width: 50px;
           margin-left: 20px;
+          margin-right: 8px;
 
           .avatar {
             @include fl-row-ai-center;

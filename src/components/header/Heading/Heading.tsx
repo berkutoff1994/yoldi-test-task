@@ -1,40 +1,44 @@
-import { useContext } from 'react';
-import { AuthContext } from '@/hooks/authContext';
 import EnterButton from '@/components/ui/EnterButton/EnterButton';
 import Image from 'next/image';
 import Link from 'next/link';
 import useSWR from 'swr'
 import { GetMyProfile } from '@/pages/api/hello';
 import styles from './heading.module.scss';
+import { FC, useContext } from 'react';
+import { AuthContext } from '@/hooks/context';
 
-export const Heading = () => {
-  const token = useContext(AuthContext);
-  const {data, error} = useSWR([token], ([token]: string[]) => GetMyProfile(token))
+interface IHeadingProps {
+  token?: string | null,
+}
+
+export const Heading:FC<IHeadingProps> = () => {
+  const {token} = useContext(AuthContext)
+  const {data} = useSWR([token], ([token]: string[]) => GetMyProfile(token))
   return (
     <div className={styles.heading}>
       <div className={styles.container}>
         <div className={styles.heading__content}>
           <div className={styles.heading__logoBlock}>
-            <Link href={'/accounts'}>
+            <Link className={styles.heading__logoBlock_link} href={'/accounts'}>
               <Image alt='logo' src='/logo.png' width={80} height={50} />
             </Link>
             <h2 className={styles.heading__title}>
               Разрабатываем и запускаем сложные веб проекты
             </h2>
           </div>
-          {token && data
+          {token
             ? 
             <div className={styles.heading__avatarBlock}>
               <span className={styles.avatarBlock__name}>
-                {data.name}
+                {data?.name}
               </span>
-              <Link href={`/account/owner/${data.slug}`}>
+              <Link href={`/account/owner/${data?.slug}`}>
                 <div className={styles.avatarBlock__avatar}>
-                  {data.image
+                  {data?.image
                   ?
                   <Image alt='avatar' src={data.image.url} width={50} height={50}/>
                   :
-                  <div className={styles.avatar}>{data.name[0]}</div>
+                  <div className={styles.avatar}>{data?.name[0]}</div>
                   }
                 </div>
               </Link>

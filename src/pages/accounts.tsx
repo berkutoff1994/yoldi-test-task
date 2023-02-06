@@ -6,13 +6,18 @@ import { UsersList } from '@/components/UsersList'
 import { IUser } from '@/types'
 import useSWR from 'swr'
 import { fetcher } from './api/hello'
-import { useGetEmail } from '@/hooks'
+import { useGetEmail, useGetToken } from '@/hooks'
 import Loader from '@/components/ui/Loader/Loader'
 import styles from '@/styles/accounts.module.scss'
+import { useContext } from 'react'
+import { AuthContext } from '@/hooks/context'
 
 export default function Accounts() {
   const {data, error} = useSWR<IUser[] | undefined>('https://frontend-test-api.yoldi.agency/api/user', fetcher)
   const email = useGetEmail()
+  const token = useGetToken()
+  const {setToken} = useContext(AuthContext)
+  setToken(token)
   const myUser: IUser | undefined = data?.find((user) => user.email === email)
   if(!data) {
     return (
@@ -29,14 +34,14 @@ export default function Accounts() {
       <div className={styles.wrapper}>
         <header>
           <SearchLine />
-          <Heading />
+          <Heading token={token} />
         </header>
         <main className={styles.main}>
           <div className={styles.container}>
             <UsersList myUser={myUser} userList={data} />
           </div>
         </main>
-        {!email ? <Footer /> : null} 
+        {!token ? <Footer /> : null} 
       </div>
     </>
   )

@@ -9,7 +9,7 @@
   .main__back {
     @include fl-row-ai-center;
     justify-content: center;
-    height: 200px;
+    height: 196px;
     width: 100%;
     border-bottom: 1px solid #E6E6E6;
     background-repeat: no-repeat;
@@ -30,9 +30,12 @@
       opacity: 1;
     }
   }
-
   .container {
     width: 100%;
     @include container;
+
+    @include _490 {
+      margin-left: 10px;
+    }
   }
 }

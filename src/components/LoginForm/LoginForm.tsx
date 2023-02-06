@@ -1,13 +1,17 @@
 import { Login } from '@/pages/api/hello';
 import { ValidationEmail, ValidationPassword } from '@/utils/validation';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useSWRConfig } from 'swr';
 import FormButton from '../ui/FormButton/FormButton';
 import MyInput from '../ui/MyInput/MyInput';
 import styles from './loginform.module.scss';
 
-export function LoginForm() {
+interface ILoginForm {
+  setLoading: (arg: boolean) => void
+}
+
+export const LoginForm:FC<ILoginForm> = ({setLoading}) => {
   const [value, setValue] = useState({email: '', password: ''})
   const [disabled, setDisabled] = useState<boolean>(true)
   const [valid, setValid] = useState({name: true, email: true, password: true})
@@ -24,6 +28,7 @@ export function LoginForm() {
 
   const inputHandler = (e: any) => {
     setValue(prev => ({...prev, [e.target.name]: e.target.value}))
+    setApiError('')
   }
 
   useEffect(() => {
@@ -41,19 +46,25 @@ export function LoginForm() {
 
   const formHandler = async (e: any) => {
     e.preventDefault()
+    setLoading(true)
     if(!ValidationEmail(value.email)) {
-      console.log('email невалиден')
       setValid({...valid, email: false})
+      setLoading(false)
       return
     }
     if(!ValidationPassword(value.password)) {
-      console.log('Пароль невалиден')
       setValid({...valid, password: false})
+      setLoading(false)
       return
     }
     const response = await Login(value, mutate)
+    if(response.message == 'Неправильный email или пароль') {
+      setApiError(response.message)
+      setLoading(false)
+      return
+    }
     localStorage.setItem('token', response.value)
-    setValue({email: '', password: ''})
+    localStorage.setItem('email', value.email)
     router.push('/accounts')
   }
 

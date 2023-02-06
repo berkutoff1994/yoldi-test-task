@@ -4,8 +4,11 @@ import { Heading } from '@/components/header/Heading'
 import { Footer } from '@/components/Footer'
 import { RegistrForm } from '@/components/RegistrForm'
 import styles from '@/styles/register.module.scss'
+import { useState } from 'react'
+import Loader from '@/components/ui/Loader/Loader'
 
 export default function Register() {
+  const [loading, setLoading] = useState<boolean>(false)
   return (
     <>
       <Head>
@@ -19,8 +22,9 @@ export default function Register() {
           <Heading />
         </header>
         <main className={styles.main}>
+          {loading && <Loader />}
           <div className={styles.container}>
-            <RegistrForm />
+            <RegistrForm setLoading={setLoading}/>
           </div>
         </main>
         <Footer />

@@ -22,7 +22,8 @@
         width: 100px;
         height: 100px;
         border-radius: 50px;
-        border: 1px solid $gray-mid;
+        outline: 1px solid $gray-mid;
+        background-color: $gray-mid;
 
         .avatar {
           @include fl-row-ai-center;

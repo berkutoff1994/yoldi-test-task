@@ -1,39 +1,36 @@
 import { useRouter } from 'next/router';
-import { FC, useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import EnterButton from '../ui/EnterButton/EnterButton';
 import { useSWRConfig } from 'swr'
 import Image from 'next/image'
-import { ChangeMyAvatar, ChangeMyProfile} from '@/pages/api/hello';
-import { IUser } from '@/types';
+import { ChangeMyAvatar, ChangeMyProfile } from '@/pages/api/hello';
 import { RedactionModal } from '../RedactionModal';
-import styles from './owner.module.scss';
 import Loader from '../ui/Loader/Loader';
-import { AuthContext } from '@/hooks/authContext';
+import { AuthContext, UserContext } from '@/hooks/context';
+import styles from './owner.module.scss';
 
-interface IAboutUser {
-  myUser: IUser,
-}
-
-export const Owner:FC<IAboutUser> = ({myUser}) => {
+export const Owner = () => {
   const [loading, setLoading] = useState<boolean>(false)
-  const token = useContext(AuthContext);
+  const {token, setToken} = useContext(AuthContext)
+  const {userData, setUserData} = useContext(UserContext)
   const router = useRouter()
   const { mutate } = useSWRConfig()
   const [modal, setModal] = useState(false)
-  console.log(myUser)
 
   const onExit = () => {
     localStorage.clear()
     router.push('/accounts')
+    setToken(null)
   }
 
   const onRedaction = () => {
     setModal(true)
-    router.push(`/account/owner/edit=${myUser?.email}`)
+    router.push(`/account/owner/edit=${userData?.slug}`)
   }
+
   const exitRedaction = () => {
     setModal(false)
-    router.push(`/account/owner/${myUser?.email}`)
+    router.push(`/account/owner/${userData?.slug}`)
   }
 
   const onImageChange = async(e: any) => {
@@ -41,29 +38,24 @@ export const Owner:FC<IAboutUser> = ({myUser}) => {
     const formData = new FormData()
     formData.append('file', e.target.files[0])
     const response = await ChangeMyAvatar(formData, mutate)
-    const value = {
-      name: myUser?.name,
-      imageId: response.data.id,
-      slug: myUser?.slug,
-      coverId: myUser?.cover?.id,
-      description: myUser?.description
-    }
-    const res = await ChangeMyProfile(value, mutate, token)
+    const body = {...userData, imageId: response.data.id}
+    const res = await ChangeMyProfile(body, mutate, token)
     if (res) {
       setLoading(false)
+      setUserData(res.data)
     }
   }
 
   return (
     <div className={styles.aboutUser}>
-      {loading ? <Loader /> : null}
+      {loading && <Loader />}
       <div className={styles.aboutUser__block}>
         <div className={styles.aboutUser__avatar}>
           <div className={styles.avatar__background}>
-            {myUser?.image 
+            {userData?.image 
             ? 
             <div className={styles.avatar}>
-              <Image alt='avatar' src={myUser.image?.url} width={100} height={100}/>
+              <Image alt='avatar' src={userData.image?.url} width={100} height={100}/>
               <div />
               <input
                 className={styles.avatar__download} 
@@ -73,8 +65,8 @@ export const Owner:FC<IAboutUser> = ({myUser}) => {
                 accept='image/*,.png,.jpg'/>
             </div>
             :
-            <div className={styles.avatar}>
-              {myUser?.name ? myUser.name[0] : null}
+            <div className={styles.avatar + ' ' + styles.avatar__noneImage}>
+              {userData?.name && userData.name[0]}
               <div />
               <input
                 className={styles.avatar__download} 
@@ -88,16 +80,15 @@ export const Owner:FC<IAboutUser> = ({myUser}) => {
         </div>
         <div className={styles.aboutUser__topBLock}>
           <div className={styles.aboutUser__nameBlock}>
-            <span className={styles.aboutUser__name}>{myUser?.name}</span>
-            <span className={styles.aboutUser__email}>{myUser?.email}</span>
+            <span className={styles.aboutUser__name}>{userData?.name}</span>
+            <span className={styles.aboutUser__email}>{userData?.email}</span>
           </div>
             <EnterButton padding='7px 22px 7px 25px' onClick={onRedaction} icon='/redaction.png'>Редактировать</EnterButton>
         </div>
-        <p className={styles.aboutUser__descr}>{myUser?.description}</p>
+        <p className={styles.aboutUser__descr}>{userData?.description}</p>
           <EnterButton padding='7px 22px 7px 25px' onClick={onExit} icon='/exit.png'>Выйти</EnterButton>
       </div>
       <RedactionModal 
-        aboutUser={myUser} 
         onCloseModal={exitRedaction} 
         exitRedaction={exitRedaction} 
         modal={modal}
@@ -105,3 +96,4 @@ export const Owner:FC<IAboutUser> = ({myUser}) => {
     </div>
   );
 }
+

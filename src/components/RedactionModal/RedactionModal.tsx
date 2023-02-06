@@ -4,7 +4,8 @@ import { IUser } from '@/types';
 import { useRouter } from 'next/router';
 import { useSWRConfig } from 'swr';
 import ModalButton from '../ui/ModalButton/ModalButton';
-import { AuthContext } from '@/hooks/authContext';
+import Loader from '../ui/Loader/Loader';
+import { AuthContext, UserContext } from '@/hooks/context';
 import styles from './redactionmodal.module.scss';
 
 interface IRedactionModal {
@@ -12,20 +13,15 @@ interface IRedactionModal {
   setModal: (arg: boolean) => void
   exitRedaction: () => void,
   onCloseModal: () => void,
-  aboutUser: IUser
 }
 
 export const RedactionModal:FC<IRedactionModal> = (props) => {
-  const [value, setValue] = useState(
-    {
-      name: props.aboutUser?.name, 
-      slug: props.aboutUser?.slug, 
-      description: props.aboutUser?.description
-    })
   const { mutate } = useSWRConfig()
-  const token = useContext(AuthContext);
   const router = useRouter()
-  
+  const {token} = useContext(AuthContext)
+  const {userData, setUserData} = useContext(UserContext)
+  const [value, setValue] = useState<IUser>({...userData})
+
   const valueChange = (e: any) => {
     setValue(prev => ({...prev, [e.target.name]: e.target.value}))
   }
@@ -33,11 +29,15 @@ export const RedactionModal:FC<IRedactionModal> = (props) => {
   const formHandler = async(e: any) => {
     e.preventDefault()
     const response = await ChangeMyProfile(value, mutate, token)
-    props.setModal(false)
-    router.push(`/account/owner/${response?.data.email}`)
+    setUserData(value)
+    if(response) {
+      props.setModal(false)
+      router.push(`/account/owner/${response?.data.slug}`)
+    }
   }
   return (
     <div id='edit' onClick={props.exitRedaction} className={props.modal ? styles.modal + ' ' + styles.modal__active : styles.modal}>
+      {!value && <Loader />}
       <div onClick={(e) => e.stopPropagation()} className={styles.modal__content}>
         <h2 className={styles.modal__title}>Редактировать профиль</h2>
         <form className={styles.modal__form} onSubmit={formHandler}>
@@ -47,7 +47,7 @@ export const RedactionModal:FC<IRedactionModal> = (props) => {
               type="text" 
               name='name'
               className={styles.form__input + ' ' + styles.aboutInput} 
-              value={value.name}
+              value={value?.name}
               onChange={valueChange} />
           </label>
           <label className={styles.form__label}>
@@ -57,7 +57,7 @@ export const RedactionModal:FC<IRedactionModal> = (props) => {
               <input
                 name='slug'
                 className={styles.form__input + ' ' + styles.slugInput} 
-                value={value.slug}
+                value={value?.slug}
                 onChange={valueChange} />
             </div>
           </label>
@@ -67,7 +67,7 @@ export const RedactionModal:FC<IRedactionModal> = (props) => {
               className={styles.form__textarea} 
               onChange={valueChange}
               name='description'
-              value={value.description || ''}
+              value={value?.description || ''}
               />
           </label>
           <div className={styles.form__btns}>
