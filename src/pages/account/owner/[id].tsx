@@ -45,7 +45,6 @@ export default function AboutOwner() {
     <UserContext.Provider value={{data, mutate}}>
       <>
         <header>
-          <SearchLine />
           <Heading token={token} />
         </header>
         <main className={styles.main}>

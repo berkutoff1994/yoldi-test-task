@@ -21,7 +21,6 @@ export default function AboutGuest() {
         :
         <>
         <header>
-          <SearchLine />
           <Heading token={token}/>
         </header>
         <main className={styles.main}>
