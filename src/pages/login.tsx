@@ -18,7 +18,6 @@ export default function Login() {
       </Head>
       <div className={styles.wrapper}>
         <header>
-          <SearchLine />
           <Heading />
         </header>
         <main className={styles.main}>

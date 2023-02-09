@@ -33,7 +33,6 @@ export default function Accounts() {
       </Head>
       <div className={styles.wrapper}>
         <header>
-          <SearchLine />
           <Heading token={token} />
         </header>
         <main className={styles.main}>
