@@ -1,4 +1,3 @@
-import { SearchLine } from '@/components/header/SearchLine'
 import { Heading } from '@/components/header/Heading'
 import useSWR from 'swr'
 import { ChangeMyAvatar, ChangeMyProfile, GetMyProfile } from '../../api/hello'
@@ -45,7 +44,7 @@ export default function AboutOwner() {
     <UserContext.Provider value={{data, mutate}}>
       <>
         <header>
-          <Heading token={token} />
+          <Heading />
         </header>
         <main className={styles.main}>
           {loading && <Loader />}

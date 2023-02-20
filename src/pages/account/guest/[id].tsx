@@ -1,4 +1,3 @@
-import { SearchLine } from '@/components/header/SearchLine'
 import { Heading } from '@/components/header/Heading'
 import { useRouter } from 'next/router'
 import { fetcher } from '../../api/hello'
@@ -21,7 +20,7 @@ export default function AboutGuest() {
         :
         <>
         <header>
-          <Heading token={token}/>
+          <Heading />
         </header>
         <main className={styles.main}>
           <div className={styles.main__back} style={{background: !data.cover ? '#F3F3F3' : `url(${data.cover.url})`}}/>

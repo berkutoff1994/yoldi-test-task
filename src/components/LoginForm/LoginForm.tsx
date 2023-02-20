@@ -1,22 +1,33 @@
 import { Login } from '@/pages/api/hello';
 import { ValidationEmail, ValidationPassword } from '@/utils/validation';
 import { useRouter } from 'next/router';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, FormEvent, FormEventHandler, FormHTMLAttributes, useEffect, useState } from 'react';
 import { useSWRConfig } from 'swr';
 import FormButton from '../ui/FormButton/FormButton';
 import MyInput from '../ui/MyInput/MyInput';
 import styles from './loginform.module.scss';
 
-interface ILoginForm {
+interface ILoginFormProps {
   setLoading: (arg: boolean) => void
 }
 
-export const LoginForm:FC<ILoginForm> = ({setLoading}) => {
-  const [value, setValue] = useState({email: '', password: ''})
+interface IValueState {
+  email: string,
+  password: string,
+}
+
+interface IValidState {
+  name: boolean,
+  email: boolean,
+  password: boolean,
+}
+
+export const LoginForm:FC<ILoginFormProps> = ({setLoading}) => {
+  const [value, setValue] = useState<IValueState>({email: '', password: ''})
   const [disabled, setDisabled] = useState<boolean>(true)
-  const [valid, setValid] = useState({name: true, email: true, password: true})
+  const [valid, setValid] = useState<IValidState>({name: true, email: true, password: true})
   const [passswordType, setPasswordType] = useState<string>('password')
-  const [apiError, setApiError] = useState('')
+  const [apiError, setApiError] = useState<string>('')
   const router = useRouter()
   const { mutate } = useSWRConfig()
 
@@ -26,7 +37,7 @@ export const LoginForm:FC<ILoginForm> = ({setLoading}) => {
     } else setPasswordType('password')
   }
 
-  const inputHandler = (e: any) => {
+  const inputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(prev => ({...prev, [e.target.name]: e.target.value}))
     setApiError('')
   }
@@ -44,7 +55,7 @@ export const LoginForm:FC<ILoginForm> = ({setLoading}) => {
     }
   }, [value])
 
-  const formHandler = async (e: any) => {
+  const formHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
     if(!ValidationEmail(value.email)) {

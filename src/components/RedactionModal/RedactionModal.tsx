@@ -1,4 +1,4 @@
-import { FC, useContext, useState } from 'react';
+import { FC, FormEvent, useContext, useState } from 'react';
 import { ChangeMyProfile } from '@/pages/api/hello';
 import { IUser } from '@/types';
 import { useRouter } from 'next/router';
@@ -24,7 +24,7 @@ export const RedactionModal:FC<IRedactionModal> = (props) => {
     setValue(prev => ({...prev, [e.target.name]: e.target.value}))
   }
   
-  const formHandler = async(e: any) => {
+  const formHandler = async(e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const response = await ChangeMyProfile(value, mutate, token)
     if(response) {

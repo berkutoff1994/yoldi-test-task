@@ -7,7 +7,7 @@ interface IDownloadButton {
   link: string,
   width: number,
   height: number,
-  handler: (e: any) => void
+  handler: (e: React.ChangeEvent) => void
 }
 
 const DownloadButton:FC<IDownloadButton> = ({children, link, width, height, handler}) => {

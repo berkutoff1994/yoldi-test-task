@@ -4,14 +4,10 @@ import Link from 'next/link';
 import useSWR from 'swr'
 import { GetMyProfile } from '@/pages/api/hello';
 import styles from './heading.module.scss';
-import { FC, useContext } from 'react';
+import { useContext } from 'react';
 import { AuthContext } from '@/hooks/context';
 
-interface IHeadingProps {
-  token?: string | null,
-}
-
-export const Heading:FC<IHeadingProps> = () => {
+export const Heading = () => {
   const {token} = useContext(AuthContext)
   const {data} = useSWR([token], ([token]: string[]) => GetMyProfile(token))
   return (

@@ -31,10 +31,10 @@ export const Owner = () => {
     router.push(`/account/owner/${data?.slug}`)
   }
 
-  const onImageChange = async(e: any) => {
+  const onImageChange = async(e: React.ChangeEvent<HTMLInputElement>) => {
     setLoading(true)
     const formData = new FormData()
-    formData.append('file', e.target.files[0])
+    formData.append('file', e.target.files ? e.target.files[0] : '')
     const response = await ChangeMyAvatar(formData, mutate)
     const body = {...data, imageId: response.data.id}
     const res = await ChangeMyProfile(body, mutate, token)

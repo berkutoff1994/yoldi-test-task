@@ -7,7 +7,7 @@ interface IRemoveButton {
   link: string,
   width: number,
   height: number,
-  handler: (e: any) => void
+  handler: (e: React.MouseEvent) => void
 }
 
 const RemoveButton:FC<IRemoveButton> = ({children, link, width, height, handler}) => {

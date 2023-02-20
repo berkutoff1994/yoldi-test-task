@@ -1,5 +1,5 @@
 import { ValidationEmail, ValidationName, ValidationPassword } from '@/utils/validation';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, FormEvent, useEffect, useState } from 'react';
 import FormButton from '../ui/FormButton/FormButton';
 import MyInput from '../ui/MyInput/MyInput';
 import { useSWRConfig } from 'swr'
@@ -11,13 +11,28 @@ interface IRegistrForm {
   setLoading: (arg: boolean) => void
 }
 
+interface IErrorState {
+  email: string,
+  name: string,
+}
+
+interface IValueState extends IErrorState {
+  password: string,
+}
+
+interface IValidState {
+  name: boolean,
+  email: boolean,
+  password: boolean,
+}
+
 export const RegistrForm:FC<IRegistrForm> = ({setLoading}) => {
-  const [value, setValue] = useState({email: '', name: '', password: ''})
+  const [value, setValue] = useState<IValueState>({email: '', name: '', password: ''})
   const [disabled, setDisabled] = useState<boolean>(true)
-  const [valid, setValid] = useState({name: true, email: true, password: true})
-  const [errorValidation, setErrorValidation] = useState({name: '', email: ''})
-  const [passswordType, setPasswordType] = useState('password')
-  const [apiError, setApiError] = useState('')
+  const [valid, setValid] = useState<IValidState>({name: true, email: true, password: true})
+  const [errorValidation, setErrorValidation] = useState<IErrorState>({name: '', email: ''})
+  const [passswordType, setPasswordType] = useState<string>('password')
+  const [apiError, setApiError] = useState<string>('')
   let router= useRouter()
   const { mutate } = useSWRConfig()
 
@@ -27,7 +42,7 @@ export const RegistrForm:FC<IRegistrForm> = ({setLoading}) => {
     } else setPasswordType('password')
   }
 
-  const inputHandler = (e: any) => {
+  const inputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(prev => ({...prev, [e.target.name]: e.target.value}))
   }
   
@@ -46,7 +61,7 @@ export const RegistrForm:FC<IRegistrForm> = ({setLoading}) => {
     }
   }, [value])
 
-  const formHandler = async (e: any) => {
+  const formHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setLoading(true)
     if(!ValidationName(value.name)[0]) {
@@ -74,7 +89,6 @@ export const RegistrForm:FC<IRegistrForm> = ({setLoading}) => {
     }
     router.push('/login')
   }
-
 
   return (
     <form className={styles.form} onSubmit={formHandler}>
